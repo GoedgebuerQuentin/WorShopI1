@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:gravity="top"
         android:orientation="vertical"
-        android:paddingTop="50px">
+        android:paddingTop="150px">
 
         <TextView
             android:id="@+id/heartbeatTextView"
@@ -23,36 +23,5 @@
             android:text="70"
             android:textSize="48sp" />
 
-        <TextView
-            android:id="@+id/question"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Comment vous sentez vous ?"
-            android:visibility="invisible" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingStart="40px"
-            android:paddingEnd="40px">
-
-            <Button
-                android:id="@+id/button_bien"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Bien"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/button_mal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Mal"
-                android:visibility="invisible" />
-        </LinearLayout>
     </LinearLayout>
 </androidx.wear.widget.BoxInsetLayout>

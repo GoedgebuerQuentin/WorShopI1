@@ -5,6 +5,8 @@ import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -33,7 +35,6 @@ class MainActivity : Activity() {
         private const val CHANNEL_ID = "channel01"
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,38 +57,23 @@ class MainActivity : Activity() {
         btnQuestion.setOnClickListener {
             showNotification()
             question = true
-            findViewById<TextView>(R.id.question).visibility = View.VISIBLE
-            findViewById<Button>(R.id.button_bien).visibility = View.VISIBLE
-            findViewById<Button>(R.id.button_mal).visibility = View.VISIBLE
+            //findViewById<Button>(R.id.button_bien).visibility = View.VISIBLE
+            //findViewById<Button>(R.id.button_mal).visibility = View.VISIBLE
             //Toast.makeText(this@MainActivity, "Comment vous sentez vous ?", Toast.LENGTH_LONG).show()
-        }
-
-        var btnBien = findViewById<Button>(R.id.button_bien)
-        btnBien.setOnClickListener{
-            findViewById<TextView>(R.id.question).visibility = View.INVISIBLE
-            findViewById<Button>(R.id.button_bien).visibility = View.INVISIBLE
-            findViewById<Button>(R.id.button_mal).visibility = View.INVISIBLE
-        }
-
-        var btnMal = findViewById<Button>(R.id.button_mal)
-        btnMal.setOnClickListener{
-            findViewById<TextView>(R.id.question).visibility = View.INVISIBLE
-            findViewById<Button>(R.id.button_bien).visibility = View.INVISIBLE
-            findViewById<Button>(R.id.button_mal).visibility = View.INVISIBLE
         }
 
 
     }
-
-    /*fun setQuestion(){
-        Toast.makeText(applicationContext, "Tu va bien frero ????", Toast.LENGTH_LONG).show()
-    }*/
 
     fun showNotification() {
         createNotificationChannel()
 
         val date = Date()
         val notificationId = SimpleDateFormat("ddHHmmss", Locale.FRANCE).format(date).toInt()
+
+        val mainIntent = Intent(this, QuestionActivity::class.java)
+        mainIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val mainPendingIntent = PendingIntent.getActivity(this, 1, mainIntent, PendingIntent.FLAG_IMMUTABLE)
 
         val notificationBuilder = NotificationCompat.Builder(this,"$CHANNEL_ID")
 
@@ -98,6 +84,10 @@ class MainActivity : Activity() {
         notificationBuilder.setContentText("Comment vous sentez vous ?")
 
         notificationBuilder.priority = NotificationCompat.PRIORITY_DEFAULT
+        notificationBuilder.setAutoCancel(true)
+
+        notificationBuilder.setContentIntent(mainPendingIntent)
+
         
         val notificationCompatManager = NotificationManagerCompat.from(this)
         notificationCompatManager.notify(notificationId, notificationBuilder.build())
@@ -117,7 +107,6 @@ class MainActivity : Activity() {
     }
 
     fun setheartbeat() {
-        Log.d("test", "set" + index)
              if (heartBeat == 70) {
                 heartBeat = 73
                  binding.heartbeatTextView.text = heartBeat.toString()
